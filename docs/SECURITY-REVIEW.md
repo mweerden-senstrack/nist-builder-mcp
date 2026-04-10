@@ -4,6 +4,25 @@ This document lists every non-standard-library package pulled in by
 `nist-builder-mcp`, what it does, how it is used here, and relevant
 security considerations.
 
+Audit performed with **pip-audit 2.10.0** against the PyPI OSV database.
+
+---
+
+## Known CVEs (audit results)
+
+| Package | Version audited | CVE | Severity | Fixed in | Status |
+|---------|----------------|-----|----------|----------|--------|
+| Pillow | 10.2.0 | [CVE-2024-28219](https://nvd.nist.gov/vuln/detail/CVE-2024-28219) | Medium | 10.3.0 | **Fixed** — minimum bumped to `>=10.3.0` in `pyproject.toml` |
+
+**CVE-2024-28219 detail:** Buffer overflow in `_imagingcms.c` — `strcpy` used
+instead of `strncpy` in the ICC colour-management component. An attacker
+supplying a maliciously crafted image with an embedded ICC profile could
+trigger the overflow. In this project fingerprint/biometric images rarely
+carry ICC profiles, but the vulnerable code path is reachable via Pillow's
+`Image.open()`.
+
+All other packages (mcp, wsq, and all transitives): **no known CVEs**.
+
 ---
 
 ## Runtime model
@@ -38,12 +57,12 @@ the SDK supports multiple transport modes. In stdio mode the HTTP stack
 
 ---
 
-### `Pillow` ≥ 10.0 — Python Imaging Library (fork)
+### `Pillow` ≥ 10.3.0 — Python Imaging Library (fork)
 | | |
 |---|---|
 | **Publisher** | Jeffrey A. Clark and contributors |
 | **License** | HPND (Historical Permission Notice and Disclaimer — permissive) |
-| **Installed version** | 10.2.0 |
+| **Minimum required** | 10.3.0 (bumped from 10.0 to exclude CVE-2024-28219) |
 | **Source** | https://github.com/python-pillow/Pillow |
 
 **Purpose:** Decodes and encodes image data (JPEG, JPEG 2000, PNG, raw pixels).
