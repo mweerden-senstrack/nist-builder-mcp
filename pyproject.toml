@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "nist-builder-mcp"
+version = "0.1.0"
+description = "MCP server for building NIST ANSI/NIST-ITL 1-2011 biometric transaction files"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "mcp>=1.0.0",
+    "Pillow>=10.0",
+    "wsq>=0.8",
+]
+
+[project.scripts]
+nist-builder-mcp = "nist_builder.server:run"
+
+[tool.hatch.build.targets.wheel]
+packages = ["nist_builder"]

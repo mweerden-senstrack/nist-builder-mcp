@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "nist-builder": {
+      "command": "nist-builder-mcp"
+    }
+  }
+}
